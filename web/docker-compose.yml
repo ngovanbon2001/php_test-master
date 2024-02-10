@@ -1,0 +1,36 @@
+version: '2.5.1'
+services:
+  vaccination:
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - 8083:80
+    volumes:
+      - .:/var/www/html
+  mysql:
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: '123456'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ALLOW_EMPTY_PASSWORD: ''
+    volumes:
+      - db_data:/var/lib/mysql
+volumes:
+  db_data:
+
+# build: Đường dẫn đến thư mục chứa tệp Dockerfile để xây dựng hình ảnh.
+# image: Tên của hình ảnh sau khi xây dựng.
+# container_name: Tên của container Docker.
+# volumes: Các thư mục được chia sẻ giữa máy host và container.
+# ports: Các cổng được ánh xạ giữa máy host và container.
+# image: mysql:8.0: Đây là hình ảnh Docker MySQL bạn đang sử dụng và phiên bản của nó. Trong trường hợp này, bạn đang sử dụng hình ảnh MySQL phiên bản 8.0.
+
+# ports: Đây là phần định nghĩa cách port trong container được ánh xạ với port trên máy host. Trong ví dụ của bạn, port 3306 trong container MySQL được ánh xạ với port 3306 trên máy host.
+
+# environment: Đây là nơi bạn cấu hình các biến môi trường cho dịch vụ MySQL. Trong đoạn mã của bạn, bạn đã cấu hình các biến môi trường như mật khẩu root, tên cơ sở dữ liệu, mật khẩu của cơ sở dữ liệu và cho phép mật khẩu trống.
+
+# volumes: Đây là phần cấu hình khối lưu trữ cho dịch vụ MySQL. Dòng này cho phép bạn lưu trữ dữ liệu MySQL bên trong container và ánh xạ nó đến một khối lưu trữ có tên db_data trên máy host.
